@@ -131,7 +131,7 @@ Training is fully reproducible via a fixed random seed.
 
 **Directory tree**
 
-`.  
+```
 ├── data/  
 ├── experiments/  
 │  └── saved_experiments/  
@@ -143,9 +143,8 @@ Training is fully reproducible via a fixed random seed.
 │  ├── query.py  
 │  └── utils.py  
 ├── requirements.txt  
-└── README.md`
-
-
+└── README.md
+```
 
 **Module summary**
 
