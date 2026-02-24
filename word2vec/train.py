@@ -7,7 +7,7 @@ from dataset import *
 from model import SkipGramNS
 from utils import *
 
-text = load_text("data/sex.txt")
+text = load_text("data/wikitext.txt")
 tokens = tokenize(text)
 
 embed_dim = 100  # size of vector for every word
