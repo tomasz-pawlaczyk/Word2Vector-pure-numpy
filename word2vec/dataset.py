@@ -2,15 +2,12 @@ import numpy as np
 from collections import Counter
 import re
 
-
 def load_text(path):
     with open(path, "r", encoding="utf-8") as f:
         return f.read().lower()
 
-
 def tokenize(text):
     return re.findall(r"[a-zA-Z]+", text.lower())
-
 
 def build_vocab(tokens, min_count=1):
     counter = Counter(tokens)

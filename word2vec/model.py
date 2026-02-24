@@ -1,9 +1,7 @@
 import numpy as np
 
-
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
-
 
 class SkipGramNS:
     def __init__(self, vocab_size, embed_dim, lr=0.01):

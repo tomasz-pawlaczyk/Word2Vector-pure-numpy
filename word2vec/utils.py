@@ -1,18 +1,13 @@
 import numpy as np
 
-
 def create_unigram_dist(indices, vocab_size, power=0.75):
     counts = np.bincount(indices, minlength=vocab_size).astype(np.float64)
     probs = counts ** power
     probs /= probs.sum()
     return probs
 
-
 def sample_negatives(unigram_dist, k):
     return np.random.choice(len(unigram_dist), size=k, p=unigram_dist)
-
-
-
 
 def get_nearest(word, word_to_idx, idx_to_word, embeddings, top_k=5):
     if word not in word_to_idx:
@@ -26,8 +21,6 @@ def get_nearest(word, word_to_idx, idx_to_word, embeddings, top_k=5):
 
     best = np.argsort(-sims)[1:top_k+1]
     return [idx_to_word[i] for i in best]
-
-
 
 def analogy(a, b, c, word_to_idx, idx_to_word, embeddings, top_k=5):
     for w in (a, b, c):

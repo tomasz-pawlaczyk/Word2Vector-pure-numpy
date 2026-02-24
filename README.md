@@ -143,6 +143,7 @@ Training is fully reproducible via a fixed random seed.
 │  ├── query.py  
 │  └── utils.py  
 ├── requirements.txt  
+├── overview.py
 └── README.md
 ```
 
@@ -178,16 +179,94 @@ pip install -r requirements.txt
 
 ---
 
-## Training
+## Recommended overview (for Recruiters)
+
+The easiest way to explore the project is to run the prepared overview script:
+
+```
+python overview.py
+```
+
+This will automatically:
+
+- load pre-trained models
+
+- reproduce the main experiments
+
+- display semantic similarity results
+
+---
+
+## Training on Custom Data
+
+To train Word2Vec from scratch on any dataset:
 
 ```
 python -m word2vec.train
 ```
 
+The script will preprocess data, train the SGNS model, and save embeddings to `experiments/`.
+
 ---
 
-## Query (Inference)
+## Query (Custom Inference)
+
+To manually inspect embeddings and test your own words:
 
 ```
 python -m word2vec.query
 ```
+
+This allows interactive nearest-neighbor search and analogy testing on trained models
+
+
+
+# Possible Alternatives & Optimizations
+
+## 1. CBOW - Continuous Bag of Words
+
+An important alternative to Skip-Gram is **CBOW**, which predicts the center word from its surrounding context words.
+
+**Difference in objective:**
+
+- **Skip-Gram:** predict context from center word
+
+- **CBOW:** predict center word from context
+
+In CBOW, context embeddings are typically averaged:
+
+$$
+\mathbf{h} = \frac{1}{C}\sum_{i=1}^{C}\mathbf{v}_{context_i}
+$$
+
+The model then maximizes the probability of the target word given this aggregated context vector.
+
+**Practical trade-offs:**
+
+- CBOW is usually **faster to train**
+
+- Skip-Gram typically handles **rare words better**
+
+- Both can be combined with negative sampling or hierarchical softmax
+
+This project focuses on Skip-Gram with Negative Sampling because it more clearly exposes the pairwise training dynamics and gradient flow.
+
+---
+
+## 2. Hierarchical Softmax vs Negative Sampling
+
+Another key design choice in Word2Vec is how the model approximates the softmax over the vocabulary.
+
+**Negative Sampling (used in this project)** trains the model to distinguish real word-context pairs from randomly sampled noise words. Instead of updating the whole vocabulary, only a small number of negative samples are processed per step, which makes training very efficient.
+
+**Hierarchical Softmax** replaces the flat softmax with a binary tree (typically a Huffman tree). Each word is represented as a path from the root to a leaf, and predicting a word becomes a sequence of binary decisions along that path.
+
+**Practical trade-offs:**
+
+- Negative Sampling — faster in practice, simple to implement, works well for large datasets
+
+- Hierarchical Softmax — computes a true probability distribution, better when vocabulary is small or when many rare words are important
+
+- Negative Sampling usually gives better embeddings for semantic similarity tasks
+
+This project uses **Negative Sampling** for its efficiency and because it is the most commonly used variant in modern Word2Vec implementations.
