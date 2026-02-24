@@ -197,7 +197,7 @@ This will automatically:
 
 ---
 
-## Training on Custom Data
+## Training on custom data
 
 To train Word2Vec from scratch on any dataset:
 
@@ -209,7 +209,7 @@ The script will preprocess data, train the SGNS model, and save embeddings to `e
 
 ---
 
-## Query (Custom Inference)
+## Query
 
 To manually inspect embeddings and test your own words:
 
